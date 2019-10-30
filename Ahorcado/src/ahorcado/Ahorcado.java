@@ -48,21 +48,35 @@ public class Ahorcado {
 
 	}
 
-	//	Método que pintará muñeco según valores en vector vFallos. Si no hay un null, se entiende que se ha agotado un intento.
-	
+	// Método que pintará muñeco mediante matriz según valores en vector vFallos. Si
+	// no hay un null,
+	// se entiende que se ha agotado un intento.
+
 	public static void pintaMuneco(String vIntentos[]) {
 		String mAhorcado[][] = { { " ", " ", "_", "_", " ", " " }, { " ", "|", " ", " ", "|", " " },
 				{ " ", "|", " ", "(", "_", ")" }, { " ", "|", " ", "/", "|", "\\" }, { " ", "|", " ", " ", "|", " " },
 				{ " ", "|", " ", "/", " ", "\\" }, { "_", "|", "_", " ", " ", " " } };
 
 		if (!vIntentos[0].equalsIgnoreCase(null)) {
-			for (int i = 0; i < 4; i++) {
-				System.err.print(mAhorcado[6][i]);
+			for (int i = 6; i < mAhorcado.length; i++) {
+				for (int j = 0; j < 3; j++) {
+					System.err.println(mAhorcado[i][j]);
+				}
+				System.err.println(" ");
 			}
 		} else {
 			if (!vIntentos[1].equalsIgnoreCase(null)) {
-				for (int i = 0; i < 4; i++) {
-					System.out.println(mAhorcado[5][i]);
+				for (int i = 1; i < mAhorcado.length; i++) {
+					for (int j = 0; j < 3; j++) {
+						System.err.println(mAhorcado[i][j]);
+					}
+					System.err.println(" ");
+				}
+			} else {
+				if (!vIntentos[2].equalsIgnoreCase(null)) {
+					for (int i = 0; i < mAhorcado.length; i++) {
+						
+					}
 				}
 			}
 		}
