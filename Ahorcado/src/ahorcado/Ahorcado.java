@@ -28,7 +28,7 @@ public class Ahorcado {
 		}
 	}
 
-	// Método que define la palabra que tendra que adivinar el usuario
+	// Método que define la palabra que tendrá que adivinar el usuario
 
 	public static String estableceSolucion() {
 		Scanner leer = new Scanner(System.in);
@@ -43,55 +43,83 @@ public class Ahorcado {
 	public static void rellenaVectores(String vSol[], String vHue[], String palabra) {
 		for (int i = 0; i < vSol.length; i++) {
 			vSol[i] = palabra.substring(i, i + 1);
-			vHue[i] = "_";
+			vHue[i] = " _ ";
 		}
 
 	}
 
-	// Método que pintará muñeco mediante matriz según valores en vector vFallos. Si
-	// no hay un null,
-	// se entiende que se ha agotado un intento.
+	public static void iniciaJuego(String vSoluc[], String vHueco[], String vFallo[], String secretWord) {
+		Scanner leer = new Scanner(System.in);
+		int intentos = 6;
+		String intentoUsuario = "";
+		boolean acierto = false;
 
-	public static void pintaMuneco(String vIntentos[]) {
-		String mAhorcado[][] = { { " ", " ", "_", "_", " ", " " }, { " ", "|", " ", " ", "|", " " },
-				{ " ", "|", " ", "(", "_", ")" }, { " ", "|", " ", "/", "|", "\\" }, { " ", "|", " ", " ", "|", " " },
-				{ " ", "|", " ", "/", " ", "\\" }, { "_", "|", "_", " ", " ", " " } };
+		repite: do {
+			clean();
+			acierto = false;
+			System.out.println("Intentos restantes: " + intentos);
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
-		if (!vIntentos[0].equalsIgnoreCase(null)) {
-			for (int i = 6; i < mAhorcado.length; i++) {
-				for (int j = 0; j < 3; j++) {
-					System.err.println(mAhorcado[i][j]);
-				}
-				System.err.println(" ");
+			for (int i = 0; i < vHueco.length; i++) {
+				System.out.print(vHueco[i]);
 			}
-		} else {
-			if (!vIntentos[1].equalsIgnoreCase(null)) {
-				for (int i = 1; i < mAhorcado.length; i++) {
-					for (int j = 0; j < 3; j++) {
-						System.err.println(mAhorcado[i][j]);
-					}
-					System.err.println(" ");
+
+			System.out.println("\n\n");
+
+			for (int i = 0; i < vFallo.length; i++) {
+				if (vFallo[i] != null) {
+					System.out.print(vFallo[i]);
 				}
+			}
+
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
+			System.out.println("Introduzca letra para jugar:");
+			intentoUsuario = leer.nextLine().toUpperCase();
+
+			for (int i = 0; i < vFallo.length; i++) {
+				if (vFallo[i].equalsIgnoreCase(intentoUsuario)) {
+					System.out.println("¡Ya ha probado esa letra! Introduzca otra.");
+					continue repite;
+				}
+			}
+
+			for (int i = 0; i < vSoluc.length; i++) {
+				if (intentoUsuario.equalsIgnoreCase(vSoluc[i].substring(0, 1))) {
+					vHueco[i] = (" " + intentoUsuario + " ");
+					acierto = true;
+				}
+			}
+
+			if (acierto) {
+				clean();
+				System.out.println("¡Acierto! La letra está incluida dentro de la palabra.");
+				enterParaContinuar();
 			} else {
-				if (!vIntentos[2].equalsIgnoreCase(null)) {
-					for (int i = 0; i < mAhorcado.length; i++) {
-						
+				for (int i = 0; i < vFallo.length; i++) {
+					if (vFallo[i] == null) {
+						vFallo[i] = (" " + intentoUsuario + " ");
+						break;
 					}
 				}
+				clean();
+				System.out.println("¡Intento fallido! Pruebe de nuevo.");
+				intentos--;
+				enterParaContinuar();
 			}
-		}
+
+		} while (intentos > 0);
 	}
 
 	public static void main(String[] args) {
 		Scanner leer = new Scanner(System.in);
-		String vFallos[] = new String[6];
-		String palabraSecreta = estableceSolucion();
+		String palabraSecreta = estableceSolucion().toUpperCase();
 
 		String vSolucion[] = new String[palabraSecreta.length()];
 		String vHuecos[] = new String[palabraSecreta.length()];
+		String vFallos[] = new String[palabraSecreta.length()];
 
 		rellenaVectores(vSolucion, vHuecos, palabraSecreta);
-		pintaMuneco(vFallos);
+		iniciaJuego(vSolucion, vHuecos, vFallos, palabraSecreta);
 
 	}
 
